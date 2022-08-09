@@ -1,0 +1,26 @@
+docs: https://github.com/OAI/Overlay-Specification/blob/main/versions/1.0.0.md#actionObject
+test: ActionObject with remove true
+
+refs:
+  http://example.com/openapi.yml:
+    openapi: 3.0.3
+    paths:
+      /foo:
+        get: {}
+        post: {}
+      /bar: {}
+
+input:
+  overlay: 1.0.0
+  extends: http://example.com/openapi.yml
+  actions:
+    - target: $.paths.*.*
+      remove: true
+
+output:
+  openapi: 3.0.3
+  paths:
+    /foo: {}
+    /bar: {}
+
+  

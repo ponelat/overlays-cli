@@ -1,0 +1,6 @@
+overlays: 1.0.0
+extends: https://petstore.swagger.io/v2/swagger.json
+actions:
+  - target: '$.info'
+    update:
+      title: Overlayed!

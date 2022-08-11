@@ -1,0 +1,14 @@
+docs: https://github.com/OAI/Overlay-Specification/blob/main/versions/1.0.0.md
+test: Exmpty extends keyword. Treat as empty object
+
+input:
+  overlay: 1.0.0
+  actions:
+    - target: '$'
+      update:
+        empty: false
+
+output:
+  empty: false
+
+  

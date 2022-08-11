@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path')
 const jsYaml = require('js-yaml')
-const {applyOverlay} = require('./index')
+const applyOverlay = require('./apply-overlay')
 
 describe('Test Suite', () => {
     const testLocation = path.join(__dirname, "./test-suite");

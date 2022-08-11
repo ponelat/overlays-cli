@@ -1,0 +1,34 @@
+{
+  "$id": "https://github.com/OAI/Overlay-Specification/blob/main/versions/1.0.0.md",
+  "required": ["overlays", "actions"],
+  "type": "object",
+  "properties": {
+    "overlays": {
+      "type": "string",
+      "description": "Version of the specification",
+      "const": "1.0.0"
+    },
+    "extends": {
+      "type": "string",
+      "format": "url"
+    },
+    "actions": {
+      "type": "array",
+      "description": "List of actions to take",
+      "items": {
+	"type": "object",
+	"required": ["target"],
+	"properties": {
+	  "target": {
+	    "type": "string"
+	  },
+	  "remove": {
+	    "type": "boolean",
+	    "const": false
+	  },
+	  "update": true
+	}
+      }
+    }
+  }
+}

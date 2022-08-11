@@ -9,8 +9,7 @@
       "const": "1.0.0"
     },
     "extends": {
-      "type": "string",
-      "format": "url"
+      "type": "string"
     },
     "actions": {
       "type": "array",

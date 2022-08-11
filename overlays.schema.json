@@ -24,7 +24,7 @@
 	  },
 	  "remove": {
 	    "type": "boolean",
-	    "const": false
+	    "const": true
 	  },
 	  "update": true
 	}

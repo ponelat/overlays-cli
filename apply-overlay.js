@@ -13,11 +13,17 @@ module.exports = async function applyOverlay(overlay, resolver) {
 	n.query(source, {
 	    [action.target]({ path }) {
 		try {
+                    let targetValue = get(source, path)
 		    if(action.remove === true) {
 			unset(source, path)
 		    } else if(action.update && typeof action.update === 'object') {
-			let merged = Object.assign({}, get(source, path), action.update)
-			source = setAndReturn(source, path, merged)
+			if(Array.isArray(targetValue)) {
+			    let merged = [...targetValue, action.update]
+			    source = setAndReturn(source, path, merged)
+                        } else {
+			    let merged = Object.assign({}, targetValue, action.update)
+			    source = setAndReturn(source, path, merged)
+                        }
 		    } else if(typeof action.update !== 'undefined') {
 			source = setAndReturn(source, path, action.update)
 		    }

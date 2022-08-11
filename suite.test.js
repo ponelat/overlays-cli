@@ -9,13 +9,15 @@ describe('Test Suite', () => {
     allYmlFiles.forEach(ymlFile => {
 	const yml = jsYaml.load(fs.readFileSync(ymlFile, 'utf8'))
         const relativePath = ymlFile.slice(testLocation.length)
-	describe(`${relativePath}`, () => {
-            it(`${yml.test}`, async () => {
-                const output = await applyOverlay(yml.input, makeResolver(yml.refs))
-		expect(output).toEqual(yml.output)
-            })
+	if(!yml.skip) {
+	    describe(`${relativePath}`, () => {
+		it(`${yml.test}`, async () => {
+		    const output = await applyOverlay(yml.input, makeResolver(yml.refs))
+		    expect(output).toEqual(yml.output)
+		})
 
-	})
+	    })
+	}
     })
 })
 

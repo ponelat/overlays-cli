@@ -1,0 +1,26 @@
+docs: https://github.com/OAI/Overlay-Specification/blob/main/versions/1.0.0.md#actionObject
+test: ActionObject update with a scalar (str) value
+
+refs:
+  http://example.com:
+    openapi: 3.0.3
+    paths:
+      /foo:
+        get: 
+          description: ok
+
+input:
+  overlay: 1.0.0
+  extends: http://example.com
+  actions:
+    - target: '$.paths.["/foo"].get.description'
+      update: ok but...
+
+output:
+  openapi: 3.0.3
+  paths:
+    /foo:
+      get:
+        description: ok but...
+
+  

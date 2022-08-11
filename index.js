@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const axios = require('axios')
 const getStdin = require('./get-stdin')
 const applyOverlay = require('./apply-overlay')

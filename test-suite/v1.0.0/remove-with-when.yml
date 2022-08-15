@@ -1,0 +1,39 @@
+docs: TBD
+test: ActionObject update with when clause
+
+refs:
+  http://example.com:
+    openapi: 3.0.3
+    paths:
+      /foo:
+        get: 
+          tags:
+          - me
+        post:
+          tags:
+          - notme
+      /bar:
+        get: 
+          tags:
+          - me
+          - maybeme
+
+input:
+  overlay: 1.0.0
+  extends: http://example.com
+  actions:
+    - target: '$.paths.*.*'
+      when: '$.tags[?(@ == "me")]'
+      remove: true
+
+output:
+    openapi: 3.0.3
+    paths:
+      /foo:
+        post:
+          tags:
+          - notme
+      /bar: {}
+
+
+  

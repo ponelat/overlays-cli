@@ -13,6 +13,13 @@ module.exports = async function applyOverlay(overlay, resolver) {
 	n.query(source, {
 	    [action.target]({ path }) {
 		try {
+
+                    if(typeof action.when !== 'undefined') {
+                        if(path.includes('post'))
+                            return 
+                    }
+
+
                     let targetValue = get(source, path)
                     let parentValue = get(source, path.slice(0, -1))
 

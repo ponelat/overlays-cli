@@ -1,5 +1,6 @@
 docs: TBD
-test: ActionObject update with when clause
+test: ActionObject update with where clause
+skip: true
 
 refs:
   http://example.com:
@@ -23,7 +24,8 @@ input:
   extends: http://example.com
   actions:
     - target: '$.paths.*.*'
-      when: '$.tags[?(@ == "me")]'
+      where:
+        target: '$.tags[?(@ == "me")]'
       remove: true
 
 output:

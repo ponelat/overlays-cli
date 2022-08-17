@@ -1,0 +1,12 @@
+docs: TBD
+test: Object selector 
+
+input:
+  one: 1
+  two: 2
+
+query: '$.one'
+
+output:
+  - '#/one'
+

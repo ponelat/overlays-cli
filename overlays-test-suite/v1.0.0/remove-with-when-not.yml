@@ -24,17 +24,21 @@ input:
   actions:
     - target: '$.paths.*.*'
       where:
-        target: '$.tags[?(@ == "me")]'
+        target: '$.tags[?(@ == "not-here")]'
       remove: true
 
 output:
     openapi: 3.0.3
     paths:
       /foo:
+        get: 
+          tags:
+          - me
         post:
           tags:
           - notme
-      /bar: {}
-
-
-  
+      /bar:
+        get: 
+          tags:
+          - me
+          - maybeme

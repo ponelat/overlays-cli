@@ -1,55 +1,51 @@
-const Nimma = require('nimma').default
 const set = require('lodash/set')
 const get = require('lodash/get')
 const unset = require('lodash/unset')
+const jsonPath = require('./json-path')
+const jsonPointerToArray = require('./json-pointer-to-array')
 
 module.exports = async function applyOverlay(overlay, resolver) {
     let source = overlay.extends ? await resolver(overlay.extends) : {}
     const {actions} = overlay
     actions.forEach(action => {
-	const n = new Nimma([action.target]);
-        // TODO: Nimma catches the error in .query and it's not easy to report
-        let error
-	n.query(source, {
-	    [action.target]({ path }) {
-		try {
+	jsonPath(source, action.target).forEach(jsonPointer => {
 
-                    if(typeof action.when !== 'undefined') {
-                        if(path.includes('post'))
-                            return 
-                    }
+            const path = jsonPointerToArray(jsonPointer)
+
+	    let targetValue = get(source, path)
+	    let parentValue = get(source, path.slice(0, -1))
+
+	    if(typeof action.where === 'object' && action.where) {
+                const wherePaths = jsonPath(targetValue, action.where.target)
+
+                // Do nothing if this does not yield paths
+                if(wherePaths.length < 1) {
+                    return
+                }
+
+	    }
 
 
-                    let targetValue = get(source, path)
-                    let parentValue = get(source, path.slice(0, -1))
+	    if(action.remove === true) {
 
-		    if(action.remove === true) {
-
-			if(Array.isArray(parentValue)) {
-                            parentValue.splice(path[path.length - 1], 1)
-			    source = setAndReturn(source, path.slice(0, -1), parentValue)
-                        } else {
-			    unset(source, path)
-                        }
-		    } else if(action.update && typeof action.update === 'object') {
-			if(Array.isArray(targetValue)) {
-			    let merged = [...targetValue, action.update]
-			    source = setAndReturn(source, path, merged)
-                        } else {
-			    let merged = Object.assign({}, targetValue, action.update)
-			    source = setAndReturn(source, path, merged)
-                        }
-		    } else if(typeof action.update !== 'undefined') {
-			source = setAndReturn(source, path, action.update)
-		    }
-		} catch(e) {
-		    error = e
+		if(Array.isArray(parentValue)) {
+		    parentValue.splice(path[path.length - 1], 1)
+		    source = setAndReturn(source, path.slice(0, -1), parentValue)
+		} else {
+		    unset(source, path)
 		}
-	    },
-	});
-	if(error) {
-	    throw error
-	}
+	    } else if(action.update && typeof action.update === 'object') {
+		if(Array.isArray(targetValue)) {
+		    let merged = [...targetValue, action.update]
+		    source = setAndReturn(source, path, merged)
+		} else {
+		    let merged = Object.assign({}, targetValue, action.update)
+		    source = setAndReturn(source, path, merged)
+		}
+	    } else if(typeof action.update !== 'undefined') {
+		source = setAndReturn(source, path, action.update)
+	    }
+	})
     })
     return source
 }

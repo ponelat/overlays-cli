@@ -24,7 +24,7 @@ async function run() {
     }
 
     const applied = await applyOverlay(overlay, extendsResolver)
-    return jsYaml.dump(applied)
+    return jsYaml.dump(applied, {schema: jsYaml.JSON_SCHEMA, noRefs: true})
 }
 
 async function extendsResolver(url) {

@@ -1,0 +1,17 @@
+docs: TBD
+test: Root query
+
+input:
+  one: 
+    two:
+      tags: []
+    three:
+      tags: [1]
+    four: {}
+
+query: '$.one[?(@.tags)]'
+
+output:
+  - '/one/two'
+  - '/one/three'
+

@@ -1,17 +1,18 @@
-const Nimma = require('nimma').default
+// const Nimma = require('nimma').default
+const {JSONPath} = require('jsonpath-plus');
 
 function arrayBuilder(segment, basePath=[]) {
     return [...basePath, segment]
 }
 
-module.exports = function jsonPath(src, query, buildPath=arrayBuilder)  {
-    if(query === '$')
-        return [buildPath()]
+// JSONPath => JSONPointer[]
+module.exports = function jsonPath(src, query)  {
+    return JSONPath({path: query, json: src, resultType: 'pointer'});
+}
 
-    if(query === '$.one')
-        return [buildPath('one')]
-
-    if(query === '$.*') {
-        return Object.keys(src).map((key) => buildPath(key))
-    }
+module.exports.jsonPointerToArray = function jsonPointerToArray(jsonPointer) {
+    let path = jsonPointer.split('/').map(seg => seg.replace(/~1/g, '/').replace(/~0/g, '~'))
+    if(path[0] === '#')
+        return path.slice(1)
+    return path
 }

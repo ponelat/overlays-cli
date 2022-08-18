@@ -13,7 +13,7 @@ describe('Overlays Test Suite', () => {
 	    describe(`${relativePath}`, () => {
 		it(`${yml.test}`, async () => {
                     const {input, query} = yml
-		    const output = jsonPath(input, query, jsonPointerBuilder)
+		    const output = jsonPath(input, query)
 		    expect(output).toEqual(yml.output)
 
 		})
@@ -23,11 +23,13 @@ describe('Overlays Test Suite', () => {
     })
 })
 
-function jsonPointerBuilder(segment, basePath='#') {
-    if(typeof segment === 'undefined')
+// ['paths', '/foo', 'get'] => #/paths/~1foo/get
+function jsonPointer(path=[]) {
+    console.log("path", path)
+
+    if(path.length < 1)
         return '#'
-    segment = (segment+'').replace(/~/g, '~0').replace(/\//g, '~1')
-    return `${basePath}/${segment}`
+    return '#/' + path.map(token => token.replace(/~/g, '~0').replace(/\//g, '~1')).join('/')
 }
 
 function getAllFiles(dirPath, arrayOfFiles=[]) {

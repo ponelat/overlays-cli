@@ -18,7 +18,7 @@ run().then(console.log, (err) => {
 
 // Functions
 async function run() {
-    const overlay = jsYaml.load(await getStdin())
+    const overlay = jsYaml.load(await getStdin(), { schema: jsYaml.JSON_SCHEMA })
     const valid = validateOverlays(overlay)
     if(!valid) {
         throw validateOverlays.errors
@@ -30,10 +30,10 @@ async function run() {
 
 async function extendsResolver(url) {
     if(url.startsWith('.')) {
-	return jsYaml.load(fs.readFileSync(url, 'utf8'))
+	return jsYaml.load(fs.readFileSync(url, 'utf8'), { schema: jsYaml.JSON_SCHEMA })
     }
     const {data} = await axios.get(url)
     if(typeof data === 'string')
-        return jsYaml.load(data)
+        return jsYaml.load(data, { schema: jsYaml.JSON_SCHEMA})
     return data
 }

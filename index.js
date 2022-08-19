@@ -3,6 +3,7 @@
 const axios = require('axios')
 const getStdin = require('./get-stdin')
 const applyOverlay = require('./apply-overlay')
+const fs = require('fs')
 
 const overlaysSchema = require('./overlays.schema.json')
 const jsYaml = require('js-yaml')
@@ -28,6 +29,9 @@ async function run() {
 }
 
 async function extendsResolver(url) {
+    if(url.startsWith('.')) {
+	return jsYaml.load(fs.readFileSync(url, 'utf8'))
+    }
     const {data} = await axios.get(url)
     if(typeof data === 'string')
         return jsYaml.load(data)

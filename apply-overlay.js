@@ -11,20 +11,18 @@ module.exports = async function applyOverlay(overlay, resolver) {
 	jsonPath(source, action.target).forEach(jsonPointer => {
 
             const path = jsonPointerToArray(jsonPointer)
-
 	    let targetValue = get(source, path)
 	    let parentValue = get(source, path.slice(0, -1))
 
 	    if(typeof action.where === 'object' && action.where) {
+                let whereClausSucceeded = true
+
                 if(typeof action.where.target === 'string') {
 		    const wherePaths = jsonPath(targetValue, action.where.target)
-
-		    // Do nothing if this does not yield paths
-		    if(wherePaths.length < 1) {
-			return
-		    }
+                    whereClausSucceeded = wherePaths && wherePaths.length > 0
+                }
 		    
-                } else if(typeof action.where.empty === 'boolean') {
+                if(typeof action.where.empty === 'boolean') {
                     // null | {} | [] | ''
                     const isNull = targetValue === null
                     const isEmptyStr = targetValue === ''
@@ -32,12 +30,17 @@ module.exports = async function applyOverlay(overlay, resolver) {
                     const isEmptyArray = Array.isArray(targetValue) && !targetValue.length
                     const isEmpty = (isNull || isEmptyStr || isEmptyObject || isEmptyArray)
 
-                    if(action.where.empty != isEmpty) {
-                        return 
-                    }
-
+                    whereClausSucceeded = action.where.empty == isEmpty
                 }
 
+                if(action.where.not === true) {
+                    whereClausSucceeded = !whereClausSucceeded
+                }
+
+                // If the where clause failed, bail.
+                if(!whereClausSucceeded) {
+		    return
+                }
 	    }
 
 	    if(action.remove === true) {

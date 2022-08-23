@@ -16,15 +16,29 @@ module.exports = async function applyOverlay(overlay, resolver) {
 	    let parentValue = get(source, path.slice(0, -1))
 
 	    if(typeof action.where === 'object' && action.where) {
-                const wherePaths = jsonPath(targetValue, action.where.target)
+                if(typeof action.where.target === 'string') {
+		    const wherePaths = jsonPath(targetValue, action.where.target)
 
-                // Do nothing if this does not yield paths
-                if(wherePaths.length < 1) {
-                    return
+		    // Do nothing if this does not yield paths
+		    if(wherePaths.length < 1) {
+			return
+		    }
+		    
+                } else if(typeof action.where.empty === 'boolean') {
+                    // null | {} | [] | ''
+                    const isNull = targetValue === null
+                    const isEmptyStr = targetValue === ''
+                    const isEmptyObject = typeof targetValue === 'object' && targetValue && !Object.keys(targetValue).length
+                    const isEmptyArray = Array.isArray(targetValue) && !targetValue.length
+                    const isEmpty = (isNull || isEmptyStr || isEmptyObject || isEmptyArray)
+
+                    if(action.where.empty != isEmpty) {
+                        return 
+                    }
+
                 }
 
 	    }
-
 
 	    if(action.remove === true) {
 

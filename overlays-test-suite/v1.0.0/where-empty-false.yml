@@ -1,0 +1,38 @@
+docs: TBD
+test: ActionObject with where/empty set to true
+
+refs:
+  http://example.com:
+    openapi: 3.0.3
+    paths:
+      /foo:
+        get: {}
+        post: {}
+      /bar: {}
+      /baz: {}
+      /null: null
+      /0: 0
+      '/-1': -1
+      /empty-string: ''
+      /false: false
+      /true: true
+      /string: 'foo'
+
+input:
+  overlays: 1.0.0
+  extends: http://example.com
+  actions:
+    - target: $.paths.*
+      where:
+        empty: false
+      remove: true
+
+output:
+  openapi: 3.0.3
+  paths:
+    /bar: {}
+    /baz: {}
+    /null: null
+    /empty-string: ''
+
+  

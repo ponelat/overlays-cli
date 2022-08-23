@@ -1,7 +1,7 @@
 const jsonPathWhere = require('./json-path-where')
 const jsonPointerToArray = require('./json-pointer-to-array')
 const jsonPointerToJsonPath = require('./json-pointer-to-json-path')
-const get = require('lodash/get')
+const get = require('./get')
 
 module.exports = function splitIntoOverlay(input, {targets=[], fields=[], where=[]} = {}) {
     let overlay = {overlays: '1.0.0'}

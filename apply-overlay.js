@@ -1,5 +1,5 @@
 const set = require('lodash/set')
-const get = require('lodash/get')
+const get = require('./get')
 const unset = require('lodash/unset')
 const jsonPath = require('./json-path')
 const jsonPointerToArray = require('./json-pointer-to-array')

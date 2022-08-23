@@ -1,5 +1,5 @@
-const get = require('lodash/get')
 const jsonPath = require('./json-path')
+const get = require('./get')
 const jsonPointerToArray = require('./json-pointer-to-array')
 
 module.exports = function jsonPathWhere(input, jsonPaths=['$'], where=[]) {

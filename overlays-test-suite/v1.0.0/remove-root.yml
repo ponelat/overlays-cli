@@ -1,0 +1,15 @@
+docs: TBD
+test: ActionObject with remove 
+
+refs:
+  http://example.com:
+    one: 1
+
+input:
+  overlays: 1.0.0
+  extends: http://example.com
+  actions:
+    - target: '$'
+      remove: true
+
+output: null 

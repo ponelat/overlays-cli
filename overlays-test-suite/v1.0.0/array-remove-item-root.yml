@@ -1,8 +1,6 @@
 docs: https://github.com/OAI/Overlay-Specification/blob/main/versions/1.0.0.md#array-modification-examples
 test: Remove an array item, from root.
 
-skip: true
-
 refs:
   http://example.com: [InternalTag, ExternalTag]
 

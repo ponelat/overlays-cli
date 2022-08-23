@@ -1,6 +1,6 @@
-const set = require('lodash/set')
+const set = require('./set')
 const get = require('./get')
-const unset = require('lodash/unset')
+const remove = require('./remove')
 const jsonPath = require('./json-path')
 const jsonPointerToArray = require('./json-pointer-to-array')
 
@@ -41,32 +41,19 @@ module.exports = async function applyOverlay(overlay, resolver) {
 	    }
 
 	    if(action.remove === true) {
-
-		if(Array.isArray(parentValue)) {
-		    parentValue.splice(path[path.length - 1], 1)
-		    source = setAndReturn(source, path.slice(0, -1), parentValue)
-		} else {
-		    unset(source, path)
-		}
+                source = remove(source, path)
 	    } else if(action.update && typeof action.update === 'object') {
 		if(Array.isArray(targetValue)) {
 		    let merged = [...targetValue, action.update]
-		    source = setAndReturn(source, path, merged)
+		    source = set(source, path, merged)
 		} else {
 		    let merged = Object.assign({}, targetValue, action.update)
-		    source = setAndReturn(source, path, merged)
+		    source = set(source, path, merged)
 		}
 	    } else if(typeof action.update !== 'undefined') {
-		source = setAndReturn(source, path, action.update)
+		source = set(source, path, action.update)
 	    }
 	})
     })
     return source
-}
-
-function setAndReturn(src, path, value){
-    if(path.length < 1)
-        return value
-    set(src, path, value)
-    return src
 }

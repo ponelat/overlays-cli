@@ -6,14 +6,20 @@ const applyOverlay = require('./apply-overlay')
 describe('Overlays Test Suite', () => {
     const testLocation = path.join(__dirname, "./overlays-test-suite");
     const allYmlFiles = getAllFiles(testLocation).filter(a => a.endsWith('.yml'))
-    allYmlFiles.forEach(ymlFile => {
-	const yml = jsYaml.load(fs.readFileSync(ymlFile, 'utf8'))
-        const relativePath = ymlFile.slice(testLocation.length)
-	if(!yml.skip) {
-	    describe(`${relativePath}`, () => {
-		it(`${yml.test}`, async () => {
-		    const output = await applyOverlay(yml.input, makeResolver(yml.refs))
-		    expect(output).toEqual(yml.output)
+    const allTests = allYmlFiles.map(ymlFile => ({
+        name: ymlFile.slice(testLocation.length),
+        contents: jsYaml.load(fs.readFileSync(ymlFile, 'utf8')),
+    }))
+
+    const testsWithOnly = allTests.filter(t => t.contents.only)
+    const testsToRun = testsWithOnly.length ? testsWithOnly : allTests
+
+    testsToRun.forEach(({ contents, name }) => {
+	if(!contents.skip) {
+	    describe(`${name}`, () => {
+		it(`${contents.test}`, async () => {
+		    const output = await applyOverlay(contents.input, makeResolver(contents.refs))
+		    expect(output).toEqual(contents.output)
 		})
 
 	    })

@@ -1,0 +1,29 @@
+docs: TBD
+test: ActionObject with where/not without any other fields
+
+refs:
+  http://example.com:
+    one: 
+      foo: true
+    two:
+      foo: true
+    three:
+      bar: true
+
+input:
+  overlays: 1.0.0
+  extends: http://example.com
+  actions:
+    - target: $.*
+      where:
+        not: true
+      remove: true
+
+output: 
+  one: 
+    foo: true
+  two:
+    foo: true
+  three:
+    bar: true
+  

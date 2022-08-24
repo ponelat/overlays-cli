@@ -1,0 +1,26 @@
+docs: TBD
+test: ActionObject replace with a string
+
+refs:
+  http://example.com:
+    openapi: 3.0.3
+    paths:
+      /foo:
+        get: 
+          description: ok
+
+input:
+  overlay: 1.0.0
+  extends: http://example.com
+  actions:
+    - target: '$.paths.["/foo"].get'
+      replace: {}
+
+output:
+  openapi: 3.0.3
+  paths:
+    /foo:
+      get: {}
+        
+
+  

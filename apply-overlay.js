@@ -45,6 +45,8 @@ module.exports = async function applyOverlay(overlay, resolver) {
 
 	    if(action.remove === true) {
                 source = remove(source, path)
+	    } else if(typeof action.replace !== 'undefined') {
+		source = set(source, path, action.replace)
 	    } else if(action.update && typeof action.update === 'object') {
 		if(Array.isArray(targetValue)) {
 		    let merged = [...targetValue, action.update]

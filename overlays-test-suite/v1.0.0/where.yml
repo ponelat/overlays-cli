@@ -1,0 +1,22 @@
+docs: TBD
+test: ActionObject with empty where
+
+refs:
+  http://example.com:
+    one: 
+      foo: true
+    two:
+      foo: true
+    three:
+      bar: true
+
+input:
+  overlays: 1.0.0
+  extends: http://example.com
+  actions:
+    - target: $.*
+      where: {}
+      remove: true
+
+output: {}
+  

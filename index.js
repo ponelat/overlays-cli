@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 
-const axios = require('axios')
 const getStdin = require('./get-stdin')
 const applyOverlay = require('./apply-overlay')
-const fs = require('fs')
+const externalResolver = require('./external-resolver.js')
 
 const overlaysSchema = require('./overlays.schema.json')
 const jsYaml = require('js-yaml')
@@ -24,16 +23,6 @@ async function run() {
         throw validateOverlays.errors
     }
 
-    const applied = await applyOverlay(overlay, extendsResolver)
+    const applied = await applyOverlay(overlay, externalResolver)
     return jsYaml.dump(applied, {schema: jsYaml.JSON_SCHEMA, noRefs: true})
-}
-
-async function extendsResolver(url) {
-    if(url.startsWith('.')) {
-	return jsYaml.load(fs.readFileSync(url, 'utf8'), { schema: jsYaml.JSON_SCHEMA })
-    }
-    const {data} = await axios.get(url)
-    if(typeof data === 'string')
-        return jsYaml.load(data, { schema: jsYaml.JSON_SCHEMA})
-    return data
 }

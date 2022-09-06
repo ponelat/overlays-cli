@@ -1,0 +1,8 @@
+overlays: 1.0.0
+extends: ./x-internal.source.yml
+actions:
+  - target: '$..[?(@["x-internal"])]'
+    remove: true
+  - target: '$.info'
+    update:
+      x-overlayed: true

@@ -1,0 +1,54 @@
+openapi: 3.1.0
+info:
+  title: Sample to demo remove-x-internal
+  version: 1.0.0
+  description: |
+    This API showcases usage of the `x-internal` property and a single OpenAPI file to generate separate internal and external OAS definitions.
+servers:
+  - url: https://ebcdea8b-433b-4fc1-83d3-ae8f77962a73.remockly.com
+    description: Mock server
+paths:
+  /stars:
+    get:
+      operationId: getStars
+      summary: Get list of stars
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+               $ref: "#/components/schemas/star"
+    post:
+      operationId: postStars
+      x-internal: true
+      summary: Register a star
+      description: This is an internal API and should not display in our external docs.
+      requestBody:
+        content: 
+          application/json:
+            schema:
+              $ref: "#/components/schemas/star"
+components:
+  schemas:
+    star:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        brightness:
+          type: object
+          properties:
+            luminosity:
+              type: number
+            magnitude:
+              type: number
+        size:
+          type: number
+        mass:
+          type: number
+        hasPlanets:
+          x-internal: true
+          type: boolean

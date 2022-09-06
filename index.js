@@ -1,28 +1,26 @@
-#!/usr/bin/env node
-
-const getStdin = require('./get-stdin')
 const applyOverlay = require('./apply-overlay')
 const externalResolver = require('./external-resolver.js')
 
-const overlaysSchema = require('./overlays.schema.json')
-const jsYaml = require('js-yaml')
-const Ajv = require('ajv')
-const ajv = new Ajv({allErrors: true}) // options can be passed, e.g. {allErrors: true}
-const validateOverlays = ajv.compile(overlaysSchema)
+// Validation
+const validateOverlays = require('./validate-overlays.js')
 
-run().then(console.log, (err) => {
-    console.error(err)
-    process.exit(1)
-})
-
-// Functions
-async function run() {
-    const overlay = jsYaml.load(await getStdin(), { schema: jsYaml.JSON_SCHEMA })
-    const valid = validateOverlays(overlay)
-    if(!valid) {
-        throw validateOverlays.errors
+module.exports = async function overlay(overlayObj, resolver=externalResolver) {
+    const errors = validateOverlays(overlayObj)
+    if(errors) {
+	throw errors
     }
-
-    const applied = await applyOverlay(overlay, externalResolver)
-    return jsYaml.dump(applied, {schema: jsYaml.JSON_SCHEMA, noRefs: true})
+    return await applyOverlay(overlayObj, resolver)
 }
+module.exports.applyOverlay = require('./apply-overlay.js')
+module.exports.validateOverlays = require('./validate-overlays.js')
+module.exports.splitIntoOverlay = require('./split-into-overlay.js')
+
+module.exports.get = require('./get.js')
+module.exports.remove = require('./remove.js')
+module.exports.set = require('./set.js')
+
+module.exports.jsonPath = require('./json-path')
+module.exports.jsonPathWhere = require('./json-path-where')
+module.exports.jsonPointerGet = require('./json-pointer-get.js')
+module.exports.jsonPointerToArray = require('./json-pointer-to-array.js')
+module.exports.jsonPointerToJsonPath = require('./json-pointer-to-json-path.js')

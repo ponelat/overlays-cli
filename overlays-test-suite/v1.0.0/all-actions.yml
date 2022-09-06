@@ -1,0 +1,20 @@
+docs: TBD
+test: ActionObject with all actions in it. Order of priority. Remove wins
+
+refs:
+  http://example.com:
+    one: {}
+    two: {}
+
+input:
+  overlays: 1.0.0
+  extends: http://example.com
+  actions:
+    - target: $.*
+      replace: 1
+      update:
+        two: 2
+      remove: true
+
+output: {}
+  

@@ -1,0 +1,7 @@
+overlays: 1.0.0
+extends: https://petstore.swagger.io/v2/swagger.json
+actions:
+- target: '$.paths."/pet/{petId}".get'
+  update:
+    description: Get those Pets!
+    summary: Get Pets

@@ -73,3 +73,7 @@ output:
 # Contributing
 
 This is a prototype, and all are welcome to hack it. Some of us are on the OpenAPI slack and discord channels if you wanna chat!
+
+# License
+
+This project is licensed under the [Apache 2.0 license](./LICENSE) and includes additional notes in the [NOTICE](./NOTICE) file.

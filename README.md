@@ -72,6 +72,26 @@ output:
   
 # Docker
 
+To run with the docker image
+
+```sh
+cat samples/basic.yml | docker -i ponelat/overlays-cli:latest
+```
+
+> Where samples/basic.yml is an Overlay file
+
+The `-i` docker cli flag stands for _allow stdin_ which avoids the needs to mount volumes.
+If your overlay needs file access, you can still mount a volume with...
+
+```sh
+cat samples/x-internal.overlay.yml | docker run -i -v $(pwd)/samples:/overlays ponelat/overlays-cli:latest
+```
+
+The `/overlays` folder is special in this docker image, in that it is the current working directory.
+
+## Building docker
+
+
 This project uses a weird Makefile that allows me to build using nix (go check nix out, it's really cool), as well as for folks who don't have nix.
 Building the docker image does _NOT_ require nodejs installed, it will build the project entirely within the docker context. Which is great for consistency.
 

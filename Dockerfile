@@ -1,9 +1,10 @@
 FROM node:18-alpine
 
-RUN mkdir /src
+RUN mkdir /overlays && mkdir /src
 COPY . ./src
-WORKDIR /src
 
-RUN npm ci
+RUN cd /src && npm ci
+
+WORKDIR /overlays
 
 CMD ["/src/bin.js"]

@@ -47,8 +47,15 @@ docker-build: ## Build docker image of ponelat/overlays-cli
 docker-push: docker-build ## Push docker image to ponelat/overlays-cli
 	$(RUN) "docker push ponelat/overlays-cli"
 
-docker-smoke-test: docker-build ## Try out a sample with docker image
+docker-smoke-test-basic: 
 	$(RUN) "cat samples/basic.yml | docker run -i ponelat/overlays-cli:latest"
+
+docker-smoke-test-volume: 
+	$(RUN) "cat samples/x-internal.overlay.yml | docker run -i -v $$(pwd)/samples:/overlays ponelat/overlays-cli:latest"
+
+docker-smoke-test: docker-build docker-smoke-test-basic docker-smoke-test-volume ## Try out the docker smoke tests after building an image
+
+
 
 install: ## npm install deps (for dev only, docker does not need this)
 	$(RUN) "npm install"

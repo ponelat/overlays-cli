@@ -70,9 +70,17 @@ output:
     /bar: {}
 ```
   
+# Docker
+
+This project uses a weird Makefile that allows me to build using nix (go check nix out, it's really cool), as well as for folks who don't have nix.
+Building the docker image does _NOT_ require nodejs installed, it will build the project entirely within the docker context. Which is great for consistency.
+
+> Thanks @jasmingacic for the contribution!
+
 # Contributing
 
 This is a prototype, and all are welcome to hack it. Some of us are on the OpenAPI slack and discord channels if you wanna chat!
+
 
 # License
 

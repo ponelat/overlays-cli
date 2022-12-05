@@ -2,11 +2,12 @@
 
 pkgs.mkShell {
   buildInputs = with pkgs; [
-    nodejs-16_x
+    nodejs-18_x  ## NodeJS (v18) https://nodejs.org/en/download/
+    docker ## Docker cli https://docs.docker.com/get-docker/
   ];
 
   shellHook = ''
-    echo Execution environment for Nodejs projects
+    echo Execution environment for Overlays-CLI
   '';
 
 }

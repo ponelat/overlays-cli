@@ -1,0 +1,7 @@
+.envrc
+.git/
+node_modules/
+samples/
+shell.nix
+
+

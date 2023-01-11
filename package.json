@@ -1,6 +1,6 @@
 {
   "name": "overlays-cli",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "A cli tool to execute an Overlays document. See https://github.com/OAI/Overlay-Specification/",
   "bin": {
     "overlays-cli": "bin.js"

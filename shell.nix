@@ -6,8 +6,4 @@ pkgs.mkShell {
     docker ## Docker cli https://docs.docker.com/get-docker/
   ];
 
-  shellHook = ''
-    echo Execution environment for Overlays-CLI
-  '';
-
 }

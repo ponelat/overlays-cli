@@ -1,6 +1,7 @@
 NIX_RUN = nix-shell --run 
 BASH_RUN = bash -c 
 DOCKER_ORG = ponelat
+PLATFORMS?=linux/amd64,linux/arm64
 
 # Check if nix-shell exists, use that. Else use bash.
 # Nix is a package manager that will install all the packages needed,
@@ -41,11 +42,17 @@ dependencies: ## Prints list of dependencies in the project (for non-nix users)
 			printf "\033[%s%-30s\033[0m%s\n",color,dep,desc \
 		}'
 
-docker-build: ## Build docker image of ponelat/overlays-cli
-	$(RUN) "docker build -f Dockerfile -t ponelat/overlays-cli ."
+VERSION := $(shell $(RUN) "npm pkg get version")
+print-version: ## Print version in package.json
+	@echo $(VERSION)
+docker-release: ## Build/Push (multi-arch) docker images to ponelat/overlays-cli
+	$(RUN) "docker buildx create --name overlays-cli --node overlays-cli"
+	$(RUN) "docker buildx use overlays-cli"
+	$(RUN) "docker buildx build --platform '${PLATFORMS}' --push -t ponelat/overlays-cli:latest -t ponelat/overlays-cli:${VERSION} ."
+	$(RUN) "docker buildx stop overlay-cli"
 
-docker-push: docker-build ## Push docker image to ponelat/overlays-cli
-	$(RUN) "docker push ponelat/overlays-cli"
+docker-build: ## Build local docker image only for testing. Use docker-release for main build/push.
+	$(RUN) "docker buildx build -t ponelat/overlays-cli:latest ."
 
 docker-smoke-test-basic: 
 	$(RUN) "cat samples/basic.yml | docker run -i ponelat/overlays-cli:latest"
@@ -54,8 +61,6 @@ docker-smoke-test-volume:
 	$(RUN) "cat samples/x-internal.overlay.yml | docker run -i -v $$(pwd)/samples:/overlays ponelat/overlays-cli:latest"
 
 docker-smoke-test: docker-build docker-smoke-test-basic docker-smoke-test-volume ## Try out the docker smoke tests after building an image
-
-
 
 install: ## npm install deps (for dev only, docker does not need this)
 	$(RUN) "npm install"

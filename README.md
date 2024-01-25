@@ -5,9 +5,6 @@ This is a **prototype** for digging into https://github.com/OAI/Overlay-Specific
 It is published as an npm package `overlays-cli` which includes a simple binary cli.
 To use, pipe in an Overlay definition and it'll output the result as YAML.
 
-```sh
-```
-
 **Example Overlay**
 
 ```yaml
@@ -35,7 +32,7 @@ curl -sNL https://example.com | npx overlays-cli@latest
 curl -sNL https://gist.githubusercontent.com/ponelat/daac5912ede1871629b6028bbe715d3a/raw/2871f9f27fb93d1c01567d198fb60cd1271e7dcf/overlay.yml | npx overlays-cli@latest
 
 # If you clone the repo and want to run locally
-cat overlays-sample.yml | node ./index.js
+cat overlays-sample.yml | node ./bin.js
 ```
 
 ## Testing

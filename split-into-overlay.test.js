@@ -4,7 +4,7 @@ describe('splitIntoOverlay', () => {
     it('create an empty overlay definition by default', async () => {
         const overlay = splitIntoOverlay({})
         expect(overlay).toEqual({
-            overlays: '1.0.0'
+            overlay: '1.0.0'
         })
     })
 
@@ -17,7 +17,7 @@ describe('splitIntoOverlay', () => {
         }
         const overlay = splitIntoOverlay(input, {targets: '$.*'})
         expect(overlay).toEqual({
-            overlays: '1.0.0',
+            overlay: '1.0.0',
             actions: [{
                 target: '$["one"]',
                 update: {}
@@ -39,7 +39,7 @@ describe('splitIntoOverlay', () => {
         }
         const overlay = splitIntoOverlay(input, {targets: ['$.one', '$.two']})
         expect(overlay).toEqual({
-            overlays: '1.0.0',
+            overlay: '1.0.0',
             actions: [{
                 target: '$["one"]',
                 update: 1
@@ -60,7 +60,7 @@ describe('splitIntoOverlay', () => {
         }
         const overlay = splitIntoOverlay(input, {targets: '$.*'})
         expect(overlay).toEqual({
-            overlays: '1.0.0',
+            overlay: '1.0.0',
             actions: [
                 {
                     target: '$["one"]',
@@ -102,7 +102,7 @@ describe('splitIntoOverlay', () => {
             fields: ['description', 'summary'],
         })
         expect(overlay).toEqual({
-            overlays: '1.0.0',
+            overlay: '1.0.0',
             actions: [{
                 target: '$["paths"]["/foo"]["get"]',
                 update: {
@@ -143,7 +143,7 @@ describe('splitIntoOverlay', () => {
         })
 
         expect(overlay).toEqual({
-            overlays: '1.0.0',
+            overlay: '1.0.0',
             actions: [{
                 target: '$["paths"]["/foo"]["get"]',
                 update: {

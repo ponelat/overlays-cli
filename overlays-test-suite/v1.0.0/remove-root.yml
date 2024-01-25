@@ -6,7 +6,7 @@ refs:
     one: 1
 
 input:
-  overlays: 1.0.0
+  overlay: 1.0.0
   extends: http://example.com
   actions:
     - target: '$'

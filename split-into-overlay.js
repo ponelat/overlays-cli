@@ -4,7 +4,7 @@ const jsonPointerToJsonPath = require('./json-pointer-to-json-path')
 const get = require('./get')
 
 module.exports = function splitIntoOverlay(input, {targets=[], fields=[], where=[]} = {}) {
-    let overlay = {overlays: '1.0.0'}
+    let overlay = {overlay: '1.0.0'}
     targets = Array.isArray(targets) ? targets : [targets]
     where = Array.isArray(where) ? where : [where]
     if(!targets.length)

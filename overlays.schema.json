@@ -1,9 +1,9 @@
 {
   "$id": "https://github.com/OAI/Overlay-Specification/blob/main/versions/1.0.0.md",
-  "required": ["overlays", "actions"],
+  "required": ["overlay", "info", "actions"],
   "type": "object",
   "properties": {
-    "overlays": {
+    "overlay": {
       "type": "string",
       "description": "Version of the specification",
       "const": "1.0.0"
@@ -11,23 +11,51 @@
     "extends": {
       "type": "string"
     },
+    "info": {
+      "required": ["title", "version"],
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "patternProperties": {
+        "^x-": true
+      },
+      "additionalProperties": false
+    },
     "actions": {
       "type": "array",
       "description": "List of actions to take",
+      "minItems": 1,
       "items": {
-	"type": "object",
-	"required": ["target"],
-	"properties": {
-	  "target": {
-	    "type": "string"
-	  },
-	  "remove": {
-	    "type": "boolean",
-	    "const": true
-	  },
-	  "update": true
-	}
+        "type": "object",
+        "required": ["target"],
+        "properties": {
+          "target": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "remove": {
+            "type": "boolean",
+            "default": false
+          },
+          "update": true
+        },
+        "patternProperties": {
+          "^x-": true
+        },
+        "additionalProperties": false
       }
     }
-  }
+  },
+  "patternProperties": {
+    "^x-": true
+  },
+  "additionalProperties": false
 }

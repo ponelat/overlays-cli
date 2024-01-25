@@ -11,7 +11,7 @@ To use, pipe in an Overlay definition and it'll output the result as YAML.
 **Example Overlay**
 
 ```yaml
-overlays: 1.0.0
+overlay: 1.0.0
 extends: https://petstore3.swagger.io/api/v3/openapi.json
 actions:
   - target: '$.paths'
